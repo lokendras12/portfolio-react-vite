@@ -50,14 +50,15 @@ const HomePage = () => {
           <div className="hero-orbit" />
           <div className="hero-card-top">
             {/* <div className="hero-card-slot" /> */}
-            <div className="hero-card-tag">
-              <span>Available for opportunities</span>
-            </div>
+          
             <img src={heroPortrait} alt="Lokendra Singh" className="hero-photo hero-photo-floating" />
           </div>
           <div className="hero-card-bottom">
          
             <div className="hero-card-body">
+                <div className="hero-card-tag">
+              <span>Available for opportunities</span>
+            </div>
               <h3>Engineering with empathy and precision</h3>
               <p>
                 Blending React Native, secure architecture, and QA‑driven thinking to ship calm,
