@@ -9,7 +9,7 @@ import ProjectsPage from './pages/ProjectsPage';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/portfolio-react-vite">
       <div className="App">
         <Navbar />
         <main>
