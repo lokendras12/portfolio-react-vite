@@ -1,28 +1,31 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 
-import Header from './components/Header';
-import About from './components/About';
-import Skills from './components/Skills';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Education from './components/Education';
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import ResumePage from './pages/ResumePage';
+import ProjectsPage from './pages/ProjectsPage';
+import ContactPage from './pages/ContactPage';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-      </main>
-      <footer className="footer">
-        <p>&copy; 2024 Lokendra Singh. All Rights Reserved.</p>
-      </footer>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/resume" element={<ResumePage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </main>
+        <footer className="footer">
+          <p>&copy; 2024 Lokendra Singh. All Rights Reserved.</p>
+        </footer>
+      </div>
+    </Router>
   );
 }
 
