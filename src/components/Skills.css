@@ -1,13 +1,14 @@
 .skills {
-  padding: 4rem 2rem;
-  background-color: #f9f9f9;
+  padding: 3.5rem 1.5rem 1.75rem;
 }
 
 .skills h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #2c3e50;
+  text-align: left;
+  margin-bottom: 1.75rem;
+  font-size: 1.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 .skills-grid {
@@ -18,9 +19,17 @@
   margin: 0 auto;
 }
 
+.skill-category {
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.75rem 1.8rem;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow: var(--shadow-soft);
+}
+
 .skill-category h3 {
   font-size: 1.5rem;
-  color: #3498db;
+  color: var(--accent);
   margin-bottom: 1rem;
 }
 
@@ -33,19 +42,26 @@
   margin-bottom: 0.5rem;
   font-size: 1rem;
   line-height: 1.6;
+  color: var(--text-main);
 }
 
 .skills-list p {
   margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
 }
 
 .skills-list span {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-main);
 }
 
 @media (max-width: 768px) {
   .skills-grid {
     grid-template-columns: 1fr;
+  }
+
+  .skills {
+    padding-inline: 1.25rem;
   }
 }

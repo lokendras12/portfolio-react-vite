@@ -1,19 +1,49 @@
 .about {
-  padding: 4rem 2rem;
-  background-color: #ffffff;
+  padding: 3.5rem 1.5rem 1.5rem;
+}
+
+.about .container {
+  max-width: 880px;
 }
 
 .about h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #2c3e50;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  font-size: 1.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-.about p {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #34495e;
+.about-content {
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.75rem 1.9rem;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-lede {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--text-main);
+  margin-bottom: 1.25rem;
+}
+
+.about-footnote {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .about {
+    padding-inline: 1.25rem;
+  }
+
+  .about-content {
+    padding-inline: 1.4rem;
+  }
 }

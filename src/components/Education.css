@@ -1,22 +1,37 @@
 .education {
-  padding: 4rem 2rem;
-  background-color: #ffffff;
-  text-align: center;
+  padding: 3.5rem 1.5rem 2.5rem;
 }
 
 .education h2 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #2c3e50;
+  margin: 0 auto 1.75rem;
+  font-size: 1.7rem;
+  text-align: left;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  max-width: 880px;
+}
+
+.education-item {
+  max-width: 880px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.75rem 1.7rem;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 55%),
+    rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow: var(--shadow-soft);
 }
 
 .education-item h3 {
   margin-top: 0;
-  font-size: 1.5rem;
-  color: #34495e;
+  margin-bottom: 0.5rem;
+  font-size: 1.35rem;
+  color: var(--text-main);
 }
 
 .university {
-  font-size: 1.1rem;
-  color: #7f8c8d;
+  font-size: 1rem;
+  color: var(--text-muted);
 }

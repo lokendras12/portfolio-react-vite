@@ -5,10 +5,20 @@ const About = () => {
   return (
     <section id="about" className="about">
       <div className="container">
-        <h2>About Me</h2>
-        <p>
-          Senior React Native Engineer with 5+ years of experience building scalable mobile applications for enterprise and consumer platforms. Expertise in mobile architecture, performance optimization, secure authentication (Biometrics, MFA), and cross-platform engineering. Known for driving engineering productivity through Generative AI workflows, leading high‑visibility demos, mentoring developers, and influencing platform-level engineering practices. Strong cross-functional collaborator with experience working closely with product, design, backend, and QA teams.
-        </p>
+        <h2>About</h2>
+        <div className="about-content">
+          <p className="about-lede">
+            I&apos;m a Senior React Native Engineer with 5+ years of experience building calm, resilient
+            mobile applications for both enterprise and consumer products. I care deeply about clear
+            architecture, predictable performance, and experiences that simply feel good in hand.
+          </p>
+          <p className="about-footnote">
+            My work blends mobile engineering, performance tuning, and secure authentication
+            (Biometrics, MFA) with a strong QA background and Generative AI workflows. I regularly lead
+            demos, mentor developers, and partner closely with product, design, backend, and QA teams to
+            ship features that are thoughtful, measurable, and reliable in production.
+          </p>
+        </div>
       </div>
     </section>
   );
