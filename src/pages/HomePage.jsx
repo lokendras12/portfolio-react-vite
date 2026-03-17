@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import heroPortrait from '../../assets/hero-portrait-cutout.png';
 
 const HomePage = () => {
+  const [lightPos, setLightPos] = useState({ x: 50, y: 50 });
+  const cardTopRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!cardTopRef.current) return;
+
+    const rect = cardTopRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    setLightPos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setLightPos({ x: 50, y: 50 });
+  };
+
   return (
     <div className="home-page">
       <div className="hero-section">
@@ -48,10 +65,29 @@ const HomePage = () => {
         </div>
         <aside className="hero-card">
           <div className="hero-orbit" />
-          <div className="hero-card-top">
+          <div
+            className="hero-card-top"
+            ref={cardTopRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
             {/* <div className="hero-card-slot" /> */}
-          
-            <img src={heroPortrait} alt="Lokendra Singh" className="hero-photo hero-photo-floating" />
+
+            <img
+              src={heroPortrait}
+              alt="Lokendra Singh"
+              className="hero-photo hero-photo-floating"
+              style={{
+                filter: `drop-shadow(${lightPos.x - 50}px ${lightPos.y - 50}px 20px rgba(56, 189, 248, 0.5)) 
+                         drop-shadow(${(lightPos.x - 50) * 0.3}px ${(lightPos.y - 50) * 0.3}px 10px rgba(0, 200, 255, 0.4))`,
+              }}
+            />
+            <div
+              className="hero-light-overlay"
+              style={{
+                background: `radial-gradient(circle at ${lightPos.x}% ${lightPos.y}%, rgba(100, 200, 255, 0.08) 0%, transparent 50%)`,
+              }}
+            />
           </div>
           <div className="hero-card-bottom">
          

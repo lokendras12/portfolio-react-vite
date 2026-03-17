@@ -14,20 +14,26 @@
   justify-content: space-between;
   align-items: center;
   padding-block: 1rem;
+  padding-left: 1.25rem;
 }
 
 .navbar-brand {
-  color: #e5e7eb;
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  background: linear-gradient(120deg, #e5e7eb 0%, #38bdf8 50%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
   text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: linear-gradient(120deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4));
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+  padding: 0;
+  margin-left: 0;
+  border: none;
+  box-shadow: none;
+  line-height: 1.18;
+  align-self: flex-start;
 }
 
 .navbar-nav {
@@ -72,11 +78,11 @@
 @media (max-width: 768px) {
   .navbar .container {
     padding-block: 0.75rem;
+    padding-left: 0.7rem;
   }
 
   .navbar-brand {
-    font-size: 1.1rem;
-    padding-inline: 0.9rem;
+    font-size: 1.2rem;
   }
 
   .nav-link {

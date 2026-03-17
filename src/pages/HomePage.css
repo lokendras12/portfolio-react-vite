@@ -1,5 +1,73 @@
 .home-page {
+  position: relative;
+  min-height: 100vh;
   padding-inline: 1.25rem;
+  overflow: visible;
+  cursor: none;
+}
+
+.comet-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  cursor: none;
+}
+
+.comet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  transform: translate3d(-50%, -50%, 0);
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, #ffffff 0, #e5e7ff 70%, #c7c9ff 100%);
+  will-change: transform;
+  z-index: 2;
+}
+
+.comet::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--tail-length, 140px);
+  height: 4px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(198, 200, 255, 0.7), transparent 88%);
+  transform-origin: 0 50%;
+  transform: translate(-100%, -50%);
+  border-radius: 999px;
+  opacity: 0.9;
+}
+
+.comet-tail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  transform: translate3d(-50%, -50%, 0);
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, #ffffff 0, #e4e6ff 60%, #c7c9ff 100%);
+  will-change: transform, opacity;
+  opacity: 0;
+  z-index: 1;
+}
+
+.comet-tail::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--seg-length, 80px);
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.75), rgba(198, 200, 255, 0.65), transparent 90%);
+  transform-origin: 0 50%;
+  transform: translate(-100%, -50%);
+  border-radius: 999px;
+  opacity: 0.8;
 }
 
 .home-page .hero-section {
@@ -8,6 +76,9 @@
   align-items: center;
   gap: 2.75rem;
   padding: 2.75rem 0 0.75rem;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 .hero-copy {
@@ -137,7 +208,7 @@
   box-shadow: none;
   min-height: 0;
   transition: all 0.2s ease-in-out;
-  /* overflow: visible; */
+  overflow: visible;
 }
 
 .hero-card:hover {
@@ -154,7 +225,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* overflow: hidden; */
+  overflow: visible;
+}
+
+.hero-light-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: background 0.05s ease-out;
+  border-radius: 28px 28px 0 0;
+  mix-blend-mode: screen;
+  opacity: 0.6;
 }
 
 .hero-card-slot {
