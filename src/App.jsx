@@ -7,6 +7,7 @@ import MouseTrail from './components/MouseTrail';
 import HomePage from './pages/HomePage';
 import ResumePage from './pages/ResumePage';
 import ProjectsPage from './pages/ProjectsPage';
+import SkillsPage from './pages/SkillsPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/resume" element={<ResumePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/skills" element={<SkillsPage />} />
           </Routes>
         </main>
         <footer className="footer">

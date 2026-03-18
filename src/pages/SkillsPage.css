@@ -1,0 +1,43 @@
+.skills-page {
+  padding: 2.5rem 0;
+}
+
+.skills-page .container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.skills-page h2 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #e5e7eb;
+  font-weight: 700;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skill-card {
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.08);
+  padding: 2rem 1.5rem;
+  border: 1px solid rgba(56, 189, 248, 0.13);
+}
+
+.skill-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.7rem;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.skill-card p {
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  line-height: 1.7;
+}
