@@ -1,6 +1,30 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+
+function ScrollProgressBar() {
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      if (barRef.current) {
+        barRef.current.style.width = `${Math.max(0, Math.min(1, progress)) * 100}%`;
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="scroll-progress-bar-bg">
+      <div className="scroll-progress-bar" ref={barRef} />
+    </div>
+  );
+}
 
 const Navbar = () => {
   return (
@@ -21,6 +45,9 @@ const Navbar = () => {
             <Link to="/projects" className="nav-link">Projects</Link>
           </li>
         </ul>
+        <div className="navbar-progress-container">
+          <ScrollProgressBar />
+        </div>
       </div>
     </nav>
   );

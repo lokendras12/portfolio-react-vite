@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import './MouseTrail.css';
 
-const MAX_POINTS = 50;
-const FADE_ALPHA = 0.15;
-const MIN_DELTA = 2.5;
-const POINT_LIFE = 48;
+const MAX_POINTS = 30;
+const FADE_ALPHA = 0.08;
+const MIN_DELTA = 4;
+const POINT_LIFE = 32;
 
 const MouseTrail = () => {
   const canvasRef = useRef(null);
@@ -70,27 +70,16 @@ const MouseTrail = () => {
       ctx.globalAlpha = options.alpha;
 
       const segmentCount = points.length - 1;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
       
-      for (let i = 0; i < segmentCount; i += 1) {
+      for (let i = 1; i < points.length; i += 1) {
         const progress = i / segmentCount;
-        const coneTaper = (1 - progress) * (1 - progress) * (1 - progress);
-        
+        const coneTaper = (1 - progress) * (1 - progress);
         ctx.lineWidth = options.lineWidth * coneTaper;
-        
-        const p0 = points[i];
-        const p1 = points[i + 1];
-        const p2 = i + 2 < points.length ? points[i + 2] : p1;
-        
-        const cp1x = p0.x + (p1.x - p0.x) * 0.5;
-        const cp1y = p0.y + (p1.y - p0.y) * 0.5;
-
-        ctx.beginPath();
-        ctx.moveTo(p0.x, p0.y);
-        const nextX = (p1.x + p2.x) / 2;
-        const nextY = (p1.y + p2.y) / 2;
-        ctx.quadraticCurveTo(cp1x, cp1y, nextX, nextY);
-        ctx.stroke();
+        ctx.lineTo(points[i].x, points[i].y);
       }
+      ctx.stroke();
     };
 
     const draw = () => {
@@ -114,11 +103,11 @@ const MouseTrail = () => {
         
         // Single clean white cone line
         drawPath(pointsRef.current, {
-          strokeFn: () => 'rgba(255, 255, 255, 0.95)',
+          strokeFn: () => 'rgba(255, 255, 255, 0.9)',
           alpha,
-          lineWidth: 5,
-          shadowBlur: 10,
-          shadowColor: 'rgba(0, 200, 255, 0.8)',
+          lineWidth: 3.5,
+          shadowBlur: 8,
+          shadowColor: 'rgba(0, 200, 255, 0.6)',
         });
 
         ctx.restore();
@@ -131,21 +120,21 @@ const MouseTrail = () => {
         ctx.save();
         
         // Neon glow halo
-        ctx.globalAlpha = 0.3;
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = 'rgba(0, 200, 255, 0.9)';
-        ctx.fillStyle = 'rgba(0, 200, 255, 0.2)';
+        ctx.globalAlpha = 0.25;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = 'rgba(0, 200, 255, 0.8)';
+        ctx.fillStyle = 'rgba(0, 200, 255, 0.15)';
         ctx.beginPath();
-        ctx.arc(x, y, 16, 0, Math.PI * 2);
+        ctx.arc(x, y, 12, 0, Math.PI * 2);
         ctx.fill();
 
         // Core bright star
-        ctx.globalAlpha = 0.97;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = 'rgba(255, 255, 255, 1)';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.99)';
+        ctx.globalAlpha = 0.9;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
         ctx.beginPath();
-        ctx.arc(x, y, 7, 0, Math.PI * 2);
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
