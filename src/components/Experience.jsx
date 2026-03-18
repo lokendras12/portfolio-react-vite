@@ -48,7 +48,7 @@ const Experience = () => {
           </div>
           <div className="timeline-item">
             <div className="timeline-content">
-              <h3>IOR Mobility — QA Automation Engineer</h3>
+              <h3>IOR Moblty — QA Automation Engineer</h3>
               <p className="date">Mar 2019 – Nov 2019</p>
               <ul>
                 <li>Developed automation test scripts using Selenium and WebDriver for web and mobile applications.</li>
