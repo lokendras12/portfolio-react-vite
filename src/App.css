@@ -12,11 +12,14 @@ main {
 }
 
 .footer {
-  border-top: 1px solid var(--border-subtle);
-  padding: 1.5rem 0 2rem;
-  backdrop-filter: blur(20px);
-  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
-  box-shadow: 0 -12px 40px rgba(15, 23, 42, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0;
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 0 0 28px 28px;
 }
 
 .footer p {

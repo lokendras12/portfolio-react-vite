@@ -24,7 +24,7 @@ function App() {
           </Routes>
         </main>
         <footer className="footer">
-          <p>&copy; 2024 Lokendra Singh. All Rights Reserved.</p>
+          <p>&copy; 2026 LOKENDRA SINGH. ALL RIGHTS RESERVED.</p>
         </footer>
       </div>
     </Router>
