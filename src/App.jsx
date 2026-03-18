@@ -11,7 +11,7 @@ import SkillsPage from './pages/SkillsPage';
 
 function App() {
   return (
-    <Router basename={undefined}>
+    <Router basename="/portfolio-react-vite">
       <div className="App">
         <MouseTrail />
         <Navbar />
