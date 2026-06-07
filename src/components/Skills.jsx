@@ -1,41 +1,71 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '../utils/motion';
 import './Skills.css';
+
+const skillGroups = [
+  {
+    label: 'Core Expertise',
+    value: 'React.js, React Native, Next.js, Mobile Application Development, Cross-platform Development, Enterprise Mobile Applications',
+  },
+  {
+    label: 'Mobile',
+    value: 'React Navigation, Redux, Context API, Custom Hooks, Deep Linking, Push Notifications, Biometrics Authentication, MFA, AsyncStorage, Secure Storage, WebViews, Lottie Animations, Firebase, App Performance Optimization, Native Modules, Turbo Modules, Expo, Reanimated',
+  },
+  {
+    label: 'Web',
+    value: 'REST APIs, Browser Internals, Performance Optimization, Accessibility, Security Best Practices, Responsive UI Development, Redux Toolkit, React Query, Tailwind CSS, SEO Optimization',
+  },
+  {
+    label: 'Analytics & Monitoring',
+    value: 'Firebase Analytics, Dynatrace, Production Monitoring, Crash Reporting, Performance Monitoring, User Analytics, Adobe Analytics',
+  },
+  {
+    label: 'Leadership & Collaboration',
+    value: 'Technical Demos, Knowledge Sharing Sessions, Team Mentoring, Stakeholder Communication, Team Bonding Activities, Cross-team Coordination, Technical Presentations, Problem Solving, Ownership & Delivery',
+  },
+  {
+    label: 'Programming Languages',
+    value: 'JavaScript, TypeScript, Java, ES6+',
+  },
+  {
+    label: 'System & Engineering Practices',
+    value: 'Monorepo Architecture (Nx), CI/CD Pipelines, Git & Version Control, Agile/Scrum Workflows, Platform-level Contributions, Cross-functional Collaboration, Code Reviews, Debugging & Crash Analysis, Firebase Crashlytics, Architecture Discussions, Scalable Component Design, System Design Fundamentals, Internationalization (i18n)',
+  },
+  {
+    label: 'Cloud & Backend',
+    value: 'AWS Fundamentals, NestJS, Backend APIs, BFF (Backend for Frontend), Microservices Architecture, API Gateway Concepts, Sidecars, Authentication & Authorization, Secure API Communication',
+  },
+  {
+    label: 'AI & Productivity',
+    value: 'Cursor AI, Generative AI-assisted Development, AI-powered Debugging, Engineering Productivity Workflows',
+  },
+];
 
 const Skills = () => {
   return (
-    <section id="skills" className="skills">
-      <div className="container">
-        <h2>Skills & Expertise</h2>
+    <section id="skills" className="resume-section skills">
+      <motion.div
+        className="resume-container"
+        variants={staggerContainer(0.08)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <motion.div className="resume-head" variants={fadeUp}>
+          <span className="resume-eyebrow">Capabilities</span>
+          <h2 className="resume-title">Skills &amp; <em>Expertise</em></h2>
+        </motion.div>
+
         <div className="skills-grid">
-          <div className="skill-category">
-            <h3>Key Impact & Leadership</h3>
-            <ul>
-              <li>Improved mobile application performance by 15% through rendering optimizations, modular architecture, and efficient state management.</li>
-              <li>Introduced Generative AI development workflows using Cursor, improving developer productivity and accelerating feature development.</li>
-              <li>Acted as the primary presenter for engineering demos and architecture walkthroughs for larger teams and stakeholders.</li>
-              <li>Led multiple knowledge-sharing sessions on React Native best practices, performance optimization, and development workflows.</li>
-              <li>Served as a critical cross‑functional bridge between product, backend, QA, and design teams to ensure smooth feature delivery.</li>
-              <li>Leveraged QA automation background to maintain exceptional attention to detail and improve release stability.</li>
-              <li>Contributed to platform-level improvements and engineering standards within the mobile development team.</li>
-              <li>Motivated and supported team members through mentorship, collaboration, and organizing team bonding initiatives.</li>
-            </ul>
-          </div>
-          <div className="skill-category">
-            <h3>Technical Skills</h3>
-            <div className="skills-list">
-              <p><span>Mobile Development:</span> React Native, React.js, Android, iOS, React Navigation, Deep Linking, Push Notifications</p>
-              <p><span>Architecture:</span> Modular Architecture, Reusable Component Design, Scalable State Management</p>
-              <p><span>State Management:</span> Redux, Context API, Custom Hooks</p>
-              <p><span>Security:</span> Biometrics Authentication, MFA, Secure Token Handling</p>
-              <p><span>Analytics & Monitoring:</span> Firebase Analytics, Dynatrace, Crash Monitoring, Performance Monitoring</p>
-              <p><span>AI Productivity:</span> Cursor IDE, Generative AI Workflows, AI‑assisted development</p>
-              <p><span>Backend & APIs:</span> REST APIs, Firebase, NestJS</p>
-              <p><span>Languages:</span> JavaScript, TypeScript, ES6+</p>
-              <p><span>Tools:</span> Xcode, Android Studio, VSCode, Git, Figma</p>
-            </div>
-          </div>
+          {skillGroups.map((group) => (
+            <motion.div className="resume-card skill-group" key={group.label} variants={fadeUp}>
+              <h3 className="skill-group-label">{group.label}</h3>
+              <p className="skill-group-value">{group.value}</p>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

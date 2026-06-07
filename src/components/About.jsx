@@ -1,12 +1,24 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp } from '../utils/motion';
 import './About.css';
 
 const About = () => {
   return (
-    <section id="about" className="about">
-      <div className="container">
-        <h2>About</h2>
-        <div className="about-content">
+    <section id="about" className="resume-section about">
+      <motion.div
+        className="resume-container"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <div className="resume-head">
+          <span className="resume-eyebrow">Profile</span>
+          <h2 className="resume-title">About</h2>
+        </div>
+
+        <div className="resume-card about-content">
           <p className="about-lede">
             I&apos;m a Senior React Native Engineer with 5+ years of experience building calm, resilient
             mobile applications for both enterprise and consumer products. I care deeply about clear
@@ -19,7 +31,7 @@ const About = () => {
             ship features that are thoughtful, measurable, and reliable in production.
           </p>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

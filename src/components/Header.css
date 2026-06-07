@@ -1,37 +1,109 @@
-.header {
-  background-color: #000;
-  color: #fff;
-  padding: 4rem 2rem;
+.resume-header {
+  padding: 2.5rem 0 3rem;
   text-align: center;
 }
 
-.header-content h1 {
-  font-size: 3rem;
+.resume-header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resume-header-kicker {
+  font-family: var(--body-font);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  opacity: 0.8;
+  margin-bottom: 1.25rem;
+}
+
+.resume-header-name {
+  font-family: var(--heading-font);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
   margin: 0;
-  font-weight: 700;
 }
 
-.header-content h2 {
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
-  font-weight: 500;
-  color: #a0a0a0;
+.resume-header-role {
+  font-family: var(--body-font);
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 1rem 0 1.75rem;
 }
 
-.header-content p {
-  font-size: 1rem;
-  margin-top: 1rem;
-  color: #a0a0a0;
+.resume-header-contact {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
-.header-content a {
-  color: #fff;
+.resume-header-link {
+  color: var(--text-muted);
   text-decoration: none;
-  border-bottom: 1px solid #fff;
-  transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
-.header-content a:hover {
-  color: #38bdf8;
-  border-bottom-color: #38bdf8;
+.resume-header-link:hover {
+  color: var(--accent-warm);
+}
+
+.resume-header-loc {
+  color: var(--text-muted);
+}
+
+.resume-header-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent-warm);
+  opacity: 0.55;
+}
+
+.resume-header-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.resume-header-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.resume-header-pill:hover {
+  border-color: var(--accent-warm);
+  color: var(--accent-warm);
+  background: rgba(196, 181, 160, 0.06);
+}
+
+@media (max-width: 640px) {
+  .resume-header {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .resume-header-contact {
+    gap: 0.6rem;
+    font-size: 0.78rem;
+  }
 }

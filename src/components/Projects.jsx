@@ -1,91 +1,113 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '../utils/motion';
 import './Projects.css';
+
+const projects = [
+  {
+    title: 'MicrolandOne',
+    subtitle: 'Enterprise Collaboration Platform',
+    blurb: 'An enterprise mobile platform used by 4000+ users for internal collaboration and productivity.',
+    features: [
+      'Real-time chat and messaging with mentions and hashtags',
+      'Deep linking and secure WebViews for sensitive content',
+      'Screenshot protection for confidential information',
+      'Integration with enterprise authentication and SSO',
+      'Push notifications and activity feeds',
+    ],
+    stack: ['React Native', 'Node.js', 'Secure REST APIs'],
+  },
+  {
+    title: 'RankPedia',
+    subtitle: 'Learning Platform',
+    blurb: 'A mobile learning application supporting interactive education and content delivery.',
+    features: [
+      'Video streaming and playback for courses',
+      'Assignments, quizzes, and progress tracking',
+      'Mathematical equation rendering inside WebViews',
+      'Secure user authentication and profile management',
+      'Push notifications for reminders and updates',
+    ],
+    stack: ['React Native', 'Node.js', 'Cloud Content APIs'],
+  },
+  {
+    title: 'AcadsHR',
+    subtitle: 'Job Portal',
+    blurb: 'A comprehensive job portal designed for seamless job search, tracking, and listing.',
+    features: [
+      'Advanced job search and filtering',
+      'Job tracking dashboard for candidates',
+      'Dynamic job listings with real-time updates',
+      'Interview process tracking and scheduling',
+      'Secure authentication and user management',
+    ],
+    stack: ['React', 'Node.js', 'REST APIs'],
+  },
+  {
+    title: 'BoxSoccer',
+    subtitle: 'Soccer Social Media App',
+    blurb: 'A social platform for soccer enthusiasts to register for matches, form teams, and engage with match content.',
+    features: [
+      'User registration and team formation for local matches',
+      'Recorded match highlights with video streaming (Vimeo)',
+      'Interactive social features: comments, likes, and sharing',
+      'Admin panel for uploading and managing match videos',
+      'Push notifications for match updates and social activity',
+    ],
+    stack: ['React Native', 'Node.js', 'Vimeo APIs'],
+  },
+  {
+    title: 'Buzygo',
+    subtitle: 'Art, Product & Craft Marketplace',
+    blurb: 'A platform connecting artists, vendors, and consumers for craft, art, and product promotion.',
+    features: [
+      'Vendor profiles for showcasing crafts, art, and products',
+      'Consumer browsing and discovery of creative listings',
+      'Direct messaging between vendors and consumers',
+      'Order placement and tracking for crafts and products',
+      'Secure authentication and profile management',
+    ],
+    stack: ['React Native', 'Node.js', 'Messaging APIs'],
+  },
+];
 
 const Projects = () => {
   return (
-    <section id="projects" className="projects">
-      <div className="container">
-        <h2>Key Projects</h2>
+    <section id="projects" className="resume-section projects">
+      <motion.div
+        className="resume-container"
+        variants={staggerContainer(0.1)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <motion.div className="resume-head" variants={fadeUp}>
+          <span className="resume-eyebrow">Selected Work</span>
+          <h2 className="resume-title">Key <em>Projects</em></h2>
+        </motion.div>
+
         <div className="projects-grid">
-          <div className="project-card">
-            <h3>MicrolandOne — Enterprise Collaboration Platform</h3>
-            <p>
-              An enterprise mobile platform used by 4000+ users for internal collaboration and productivity. Key features:
-              <ul>
-                <li>Real-time chat and messaging with mentions and hashtags</li>
-                <li>Deep linking and secure WebViews for sensitive content</li>
-                <li>Screenshot protection for confidential information</li>
-                <li>Integration with enterprise authentication and SSO</li>
-                <li>Push notifications and activity feeds</li>
-                <li>Robust performance and QA-driven development</li>
+          {projects.map((project) => (
+            <motion.article className="resume-card project-card" key={project.title} variants={fadeUp}>
+              <div className="project-card-head">
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-subtitle">{project.subtitle}</p>
+              </div>
+              <p className="project-blurb">{project.blurb}</p>
+              <ul className="project-features">
+                {project.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
               </ul>
-              Built with React Native, Node.js, and secure REST APIs for scalable enterprise deployment.
-            </p>
-          </div>
-          <div className="project-card">
-            <h3>RankPedia — Learning Platform</h3>
-            <p>
-              A mobile learning application supporting interactive education and content delivery. Key features:
-              <ul>
-                <li>Video streaming and playback for courses</li>
-                <li>Assignments, quizzes, and progress tracking</li>
-                <li>Mathematical equation rendering inside WebViews</li>
-                <li>Secure user authentication and profile management</li>
-                <li>Push notifications for reminders and updates</li>
-                <li>Responsive UI for both students and educators</li>
-              </ul>
-              Built with React Native, Node.js, and integrated with cloud-based content APIs.
-            </p>
-          </div>
-          <div className="project-card">
-            <h3>AcadsHR – Job Portal</h3>
-            <p>
-              A comprehensive job portal designed for seamless job search, tracking, and listing. Features include:
-              <ul>
-                <li>Advanced job search and filtering</li>
-                <li>Job tracking dashboard for candidates</li>
-                <li>Dynamic job listings with real-time updates</li>
-                <li>Interview process tracking and scheduling</li>
-                <li>Secure authentication and user management</li>
-                <li>Integration with HR workflows and notifications</li>
-              </ul>
-              Built with React, Node.js, and REST APIs for robust performance and scalability.
-            </p>
-          </div>
-          <div className="project-card">
-            <h3>BoxSoccer — Soccer Social Media App</h3>
-            <p>
-              A social media platform for soccer enthusiasts, enabling users to register for mini soccer matches, form teams, and engage with match content. Key features:
-              <ul>
-                <li>User registration and team formation for local matches</li>
-                <li>Recorded match highlights with video streaming (Vimeo integration)</li>
-                <li>Interactive social features: comments, likes, and sharing</li>
-                <li>Admin panel for uploading and managing match videos</li>
-                <li>Push notifications for match updates and social activity</li>
-                <li>Secure authentication and user profile management</li>
-                <li>Responsive UI for both players and fans</li>
-              </ul>
-              Built with React Native, Node.js, and Vimeo APIs for robust video streaming and social engagement.
-            </p>
-          </div>
-          <div className="project-card">
-            <h3>Buzygo — Social Media App for Art, Product & Craft Listing</h3>
-            <p>
-              A platform connecting artists, vendors, and consumers for craft, art, and product promotion. Key features:
-              <ul>
-                <li>Vendor profiles for showcasing crafts, art, and products</li>
-                <li>Consumer browsing and discovery of creative listings</li>
-                <li>Direct messaging between vendors and consumers</li>
-                <li>Order placement and tracking for crafts and products</li>
-                <li>Two-sided experience: vendor promotion & consumer engagement</li>
-                <li>Secure authentication and profile management</li>
-                <li>Responsive UI for both vendor and consumer roles</li>
-              </ul>
-              Built with React Native, Node.js, and integrated messaging/order APIs for seamless social commerce.
-            </p>
-          </div>
+              <div className="project-stack">
+                {project.stack.map((tech) => (
+                  <span className="project-tag" key={tech}>{tech}</span>
+                ))}
+              </div>
+            </motion.article>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
