@@ -3,12 +3,14 @@
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-  color: var(--text-main);
+  background-color: #000;
+  color: #fff;
 }
 
 main {
   flex: 1;
   padding: 2.5rem 0 1.5rem;
+  background-color: #000;
 }
 
 .footer {
@@ -17,9 +19,9 @@ main {
   align-items: center;
   padding: 1.5rem 0;
   font-size: 1.05rem;
-  color: #e5e7eb;
-  background: rgba(15, 23, 42, 0.85);
-  border-radius: 0 0 28px 28px;
+  color: #fff;
+  background: #111;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer p {
@@ -27,13 +29,13 @@ main {
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #a0a0a0;
 }
 
 .scroll-progress-bar-bg {
   width: 100%;
   height: 6px;
-  background: linear-gradient(90deg, rgba(56,189,248,0.08) 0%, rgba(15,23,42,0.18) 100%);
+  background: #111;
   position: absolute;
   left: 0;
   top: 100%;
@@ -45,7 +47,7 @@ main {
 .scroll-progress-bar {
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+  background: #38bdf8;
   box-shadow: 0 2px 12px #38bdf8aa;
   border-radius: 0 0 12px 12px;
   transition: width 0.18s cubic-bezier(.4,1.2,.6,1);

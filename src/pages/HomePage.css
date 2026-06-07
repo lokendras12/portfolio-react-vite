@@ -1,3 +1,4 @@
+
 .home-page {
   position: relative;
   min-height: 100vh;
@@ -137,7 +138,8 @@
 }
 
 .btn-primary,
-.btn-ghost {
+.btn-ghost,
+.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -175,6 +177,17 @@
 .btn-ghost:hover {
   background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), rgba(15, 23, 42, 0.95));
   border-color: rgba(56, 189, 248, 0.9);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.7);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.9);
 }
 
 .hero-meta {

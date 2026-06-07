@@ -1,12 +1,55 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import heroPortrait from '../../assets/hero-portrait-cutout.png';
+
+const TypingEffect = ({ text, onComplete }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText(displayText + text[currentIndex]);
+        setCurrentIndex(currentIndex + 1);
+      }, 100);
+      return () => clearTimeout(timeout);
+    } else {
+      setTimeout(onComplete, 1000); // Wait a second before firing onComplete
+    }
+  }, [currentIndex, text, displayText, onComplete]);
+
+  return <span>{displayText}</span>;
+};
 
 const HomePage = () => {
   const [lightPos, setLightPos] = useState({ x: 50, y: 50 });
   const cardTopRef = useRef(null);
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [showStop, setShowStop] = useState(true);
+  const navigate = useNavigate();
 
+  const pages = ['/skills', '/projects', '/resume'];
+  let pageIndex = 0;
+  let intervalId = null;
+
+  const startAutoNavigation = () => {
+    intervalId = setInterval(() => {
+      if (pageIndex < pages.length) {
+        navigate(pages[pageIndex]);
+        pageIndex++;
+      } else {
+        clearInterval(intervalId);
+        setShowStop(false);
+      }
+    }, 3000);
+  };
+
+  const handleStop = () => {
+    clearInterval(intervalId);
+    setShowStop(false);
+  };
+  
   const handleMouseMove = (e) => {
     if (!cardTopRef.current) return;
 
@@ -25,62 +68,40 @@ const HomePage = () => {
     <div className="home-page">
       <div className="hero-section">
         <div className="hero-copy">
-          <div className="hero-kicker">
-            <span className="hero-dot" />
-            <span>Senior React Native Engineer</span>
-          </div>
           <h1 className="hero-title">
-            I craft calm, high‑performing
-            {' '}
-            <span className="hero-highlight">mobile experiences</span>
-            {' '}
-            that scale.
+            <TypingEffect text="Hi, I'm Lokendra Singh." onComplete={() => {
+              setTypingComplete(true);
+              startAutoNavigation();
+            }} />
           </h1>
-          <p className="hero-subtitle">
-            I help teams ship secure, reliable React Native apps—optimizing performance, simplifying
-            architecture, and weaving AI‑powered workflows into everyday engineering.
-          </p>
-          <div className="hero-cta-row">
-            <Link to="/projects" className="btn-primary">
-              View Projects
-            </Link>
-            <Link to="/resume" className="btn-ghost">
-              View Full Resume
-            </Link>
-          </div>
-          <div className="hero-meta">
-            <div className="hero-meta-block">
-              <span>Experience</span>
-              <strong>5+ years in React Native, QA‑driven</strong>
-            </div>
-            <div className="hero-meta-block">
-              <span>Focus</span>
-              <strong>Performance, architecture, secure auth</strong>
-            </div>
-            <div className="hero-meta-block">
-              <span>Location</span>
-              <strong>Bengaluru, India</strong>
-            </div>
-          </div>
+          {typingComplete && (
+            <>
+              <p className="hero-subtitle">
+                I craft calm, high‑performing mobile experiences that scale. I help teams ship secure, reliable React Native apps—optimizing performance, simplifying architecture, and weaving AI‑powered workflows into everyday engineering.
+              </p>
+              <div className="hero-cta-row">
+                <Link to="/projects" className="btn-primary">
+                  View Projects
+                </Link>
+                <Link to="/resume" className="btn-ghost">
+                  View Full Resume
+                </Link>
+                {showStop && <button onClick={handleStop} className="btn-secondary">Stop</button>}
+              </div>
+            </>
+          )}
         </div>
         <aside className="hero-card">
-          <div className="hero-orbit" />
           <div
             className="hero-card-top"
             ref={cardTopRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
-            {/* <div className="hero-card-slot" /> */}
-
             <img
               src={heroPortrait}
               alt="Lokendra Singh"
               className="hero-photo hero-photo-floating"
-              style={{
-                filter: `drop-shadow(${lightPos.x - 50}px ${lightPos.y - 50}px 20px rgba(56, 189, 248, 0.5)) 
-                         drop-shadow(${(lightPos.x - 50) * 0.3}px ${(lightPos.y - 50) * 0.3}px 10px rgba(0, 200, 255, 0.4))`,
-              }}
             />
             <div
               className="hero-light-overlay"
@@ -88,25 +109,6 @@ const HomePage = () => {
                 background: `radial-gradient(circle at ${lightPos.x}% ${lightPos.y}%, rgba(100, 200, 255, 0.08) 0%, transparent 50%)`,
               }}
             />
-          </div>
-          <div className="hero-card-bottom">
-         
-            <div className="hero-card-body">
-                <div className="hero-card-tag">
-              <span>Available for opportunities</span>
-            </div>
-              <h3>Engineering with empathy and precision</h3>
-              <p>
-                Blending React Native, secure architecture, and QA‑driven thinking to ship calm,
-                high‑performing mobile apps that feel great in hand.
-              </p>
-              <div className="hero-pill-row">
-                <span className="hero-pill">React Native</span>
-                <span className="hero-pill">Architecture</span>
-                <span className="hero-pill">Performance</span>
-                <span className="hero-pill">AI Workflows</span>
-              </div>
-            </div>
           </div>
         </aside>
       </div>
