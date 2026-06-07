@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './Skills.css';
 
 const skillGroups = [
@@ -59,7 +60,12 @@ const Skills = () => {
 
         <div className="skills-grid">
           {skillGroups.map((group) => (
-            <motion.div className="resume-card skill-group" key={group.label} variants={fadeUp}>
+            <motion.div
+              className="resume-card skill-group"
+              key={group.label}
+              variants={fadeUp}
+              onMouseEnter={resumeCardHover}
+            >
               <h3 className="skill-group-label">{group.label}</h3>
               <p className="skill-group-value">{group.value}</p>
             </motion.div>

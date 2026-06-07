@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './About.css';
 
 const About = () => {
@@ -18,7 +19,7 @@ const About = () => {
           <h2 className="resume-title">About</h2>
         </div>
 
-        <div className="resume-card about-content">
+        <div className="resume-card about-content" onMouseEnter={resumeCardHover}>
           <p className="about-lede">
             I&apos;m a Senior React Native Engineer with 5+ years of experience building calm, resilient
             mobile applications for both enterprise and consumer products. I care deeply about clear

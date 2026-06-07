@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './Experience.css';
 
 const roles = [
@@ -91,7 +92,7 @@ const Experience = () => {
           {roles.map((role) => (
             <motion.article className="timeline-item" key={role.company} variants={fadeUp}>
               <span className="timeline-node" aria-hidden="true" />
-              <div className="timeline-content">
+              <div className="timeline-content" onMouseEnter={resumeCardHover}>
                 <div className="timeline-meta">
                   <span className="timeline-date">{role.date}</span>
                   <span className="timeline-meta-dot" />

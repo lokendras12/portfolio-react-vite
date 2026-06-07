@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './Education.css';
 
 const Education = () => {
@@ -18,12 +19,12 @@ const Education = () => {
           <h2 className="resume-title">Education</h2>
         </div>
 
-        <div className="resume-card education-item">
+        <div className="resume-card education-item" onMouseEnter={resumeCardHover}>
           <div className="education-body">
             <h3 className="education-degree">Computer Science &amp; Engineering</h3>
             <p className="education-school">Lovely Professional University · Jalandhar, India</p>
           </div>
-          <span className="education-years">2015 – 2026</span>
+          <span className="education-years">2015 – 2019</span>
         </div>
       </motion.div>
     </section>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { easeOut } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './Header.css';
 
 const Header = () => {
@@ -18,11 +19,11 @@ const Header = () => {
           <p className="resume-header-role">Senior Mobile Engineer · React Native</p>
 
           <div className="resume-header-contact">
-            <a href="mailto:lokendras12@gmail.com" className="resume-header-link">
+            <a href="mailto:lokendras12@gmail.com" className="resume-header-link" onMouseEnter={resumeCardHover}>
               lokendras12@gmail.com
             </a>
             <span className="resume-header-dot" />
-            <a href="tel:+918837890243" className="resume-header-link">
+            <a href="tel:+918837890243" className="resume-header-link" onMouseEnter={resumeCardHover}>
               +91 88378 90243
             </a>
             <span className="resume-header-dot" />
@@ -35,10 +36,11 @@ const Header = () => {
               target="_blank"
               rel="noreferrer"
               className="resume-header-pill"
+              onMouseEnter={resumeCardHover}
             >
               LinkedIn
             </a>
-            <a href="/" className="resume-header-pill">
+            <a href="/" className="resume-header-pill" onMouseEnter={resumeCardHover}>
               Portfolio
             </a>
           </div>

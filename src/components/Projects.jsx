@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '../utils/motion';
+import { resumeCardHover } from '../utils/resumeSound';
 import './Projects.css';
 
 const projects = [
@@ -88,7 +89,12 @@ const Projects = () => {
 
         <div className="projects-grid">
           {projects.map((project) => (
-            <motion.article className="resume-card project-card" key={project.title} variants={fadeUp}>
+            <motion.article
+              className="resume-card project-card"
+              key={project.title}
+              variants={fadeUp}
+              onMouseEnter={resumeCardHover}
+            >
               <div className="project-card-head">
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-subtitle">{project.subtitle}</p>
