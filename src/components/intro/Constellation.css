@@ -1,0 +1,382 @@
+.constellation-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ─── Nebulae (subtle ambient color blobs) ─── */
+
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.nebula-violet {
+  width: 720px;
+  height: 720px;
+  background: radial-gradient(circle, rgba(110, 90, 200, 0.18), transparent 65%);
+  top: -180px;
+  left: -200px;
+}
+
+.nebula-amber {
+  width: 820px;
+  height: 820px;
+  background: radial-gradient(circle, rgba(220, 170, 100, 0.12), transparent 65%);
+  bottom: -240px;
+  right: -240px;
+}
+
+.nebula-deep {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(80, 120, 200, 0.08), transparent 65%);
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  filter: blur(90px);
+}
+
+/* ─── Layers ─── */
+
+.constellation-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ─── Background stars ─── */
+
+.bg-star {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
+  opacity: var(--star-opacity, 0.5);
+  transform: translate(-50%, -50%);
+  animation: twinkle ease-in-out infinite;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.bg-star-warm {
+  background: rgba(255, 220, 160, 1);
+  box-shadow: 0 0 5px rgba(255, 220, 160, 0.8);
+}
+
+.bg-star-cool {
+  background: rgba(180, 210, 255, 1);
+  box-shadow: 0 0 5px rgba(180, 210, 255, 0.7);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--star-opacity); transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: calc(var(--star-opacity) * 0.25); transform: translate(-50%, -50%) scale(0.85); }
+}
+
+/* ─── Constellation lines (SVG) ─── */
+
+.constellation-lines {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ─── Skill nodes (bright named stars) ─── */
+
+.skill-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  color: inherit;
+  font-family: inherit;
+  transition: filter 0.3s ease;
+}
+
+.skill-node:hover {
+  filter: drop-shadow(0 0 12px rgba(232, 218, 195, 0.45));
+}
+
+.skill-node-star {
+  position: relative;
+  width: var(--star-size, 8px);
+  height: var(--star-size, 8px);
+}
+
+.skill-node-star-core {
+  position: absolute;
+  inset: 0;
+  background: #fffaef;
+  border-radius: 50%;
+  opacity: var(--star-opacity, 1);
+  box-shadow:
+    0 0 6px rgba(255, 245, 220, 0.95),
+    0 0 16px rgba(232, 218, 195, 0.55);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+  z-index: 3;
+}
+
+.skill-node-star-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--star-glow, 32px);
+  height: var(--star-glow, 32px);
+  background: radial-gradient(circle, rgba(232, 218, 195, 0.5), transparent 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  z-index: 1;
+}
+
+.skill-node-star-ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: linear-gradient(90deg, transparent 0%, rgba(232, 218, 195, 0.8) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+  transition: width 0.35s ease;
+  height: 1px;
+}
+
+.skill-node-star-ray-h {
+  transform: translate(-50%, -50%);
+  width: var(--star-ray, 36px);
+}
+
+.skill-node-star-ray-v {
+  transform: translate(-50%, -50%) rotate(90deg);
+  width: var(--star-ray, 36px);
+}
+
+.skill-node:hover .skill-node-star-core {
+  background: #ffffff;
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 1),
+    0 0 24px rgba(232, 218, 195, 0.9),
+    0 0 48px rgba(232, 218, 195, 0.6);
+}
+
+.skill-node:hover .skill-node-star-ray-h,
+.skill-node:hover .skill-node-star-ray-v {
+  width: calc(var(--star-ray, 36px) * 1.45);
+}
+
+.skill-node-label {
+  font-family: var(--heading-font);
+  font-size: 0.92rem;
+  font-style: italic;
+  color: rgba(245, 240, 230, 0.78);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  text-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.95),
+    0 0 2px rgba(0, 0, 0, 0.8);
+  transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.skill-node:hover .skill-node-label {
+  color: #fffaef;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Shooting stars (meteors) ─── */
+
+/* Long, tapered trail — most of its length is essentially invisible; only
+   the last ~30% before the head registers as a streak. The slight blur
+   adds atmospheric softness so the trail doesn't read as a hard line. */
+.shooting-star {
+  position: absolute;
+  width: 340px;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 50%,
+    rgba(255, 240, 220, 0.03) 65%,
+    rgba(255, 240, 220, 0.10) 76%,
+    rgba(255, 245, 230, 0.25) 85%,
+    rgba(255, 250, 240, 0.55) 92%,
+    rgba(255, 253, 248, 0.9) 97%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  filter:
+    drop-shadow(0 0 3px rgba(255, 240, 220, 0.55))
+    blur(0.35px);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 1px;
+  will-change: transform, opacity;
+}
+
+/* Bright meteor head with layered ablation halos (white core, warm middle,
+   amber outer). Looks like atmospheric burn-up. */
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -1.5px;
+  width: 4.5px;
+  height: 4.5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 5px 1px rgba(255, 250, 230, 1),
+    0 0 12px 3px rgba(255, 238, 195, 0.5),
+    0 0 26px 6px rgba(255, 220, 160, 0.2);
+}
+
+/* Star 2 — cool blue tint (iron-rich) */
+.shooting-star-2 {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 50%,
+    rgba(220, 235, 255, 0.03) 65%,
+    rgba(220, 235, 255, 0.10) 76%,
+    rgba(225, 238, 255, 0.25) 85%,
+    rgba(235, 244, 255, 0.55) 92%,
+    rgba(245, 250, 255, 0.9) 97%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  filter:
+    drop-shadow(0 0 3px rgba(220, 235, 255, 0.55))
+    blur(0.35px);
+}
+
+.shooting-star-2::after {
+  box-shadow:
+    0 0 5px 1px rgba(235, 245, 255, 1),
+    0 0 12px 3px rgba(190, 215, 255, 0.5),
+    0 0 26px 6px rgba(160, 195, 250, 0.2);
+}
+
+/* Star 3 — warm copper tint, slightly shorter & faster streak */
+.shooting-star-3 {
+  width: 280px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 50%,
+    rgba(255, 220, 180, 0.03) 65%,
+    rgba(255, 220, 180, 0.10) 76%,
+    rgba(255, 225, 190, 0.25) 85%,
+    rgba(255, 235, 205, 0.55) 92%,
+    rgba(255, 245, 220, 0.9) 97%,
+    rgba(255, 250, 235, 1) 100%
+  );
+  filter:
+    drop-shadow(0 0 3px rgba(255, 215, 170, 0.55))
+    blur(0.35px);
+}
+
+.shooting-star-3::after {
+  box-shadow:
+    0 0 5px 1px rgba(255, 240, 210, 1),
+    0 0 12px 3px rgba(255, 205, 155, 0.5),
+    0 0 26px 6px rgba(255, 180, 120, 0.2);
+}
+
+/* Constant-velocity motion (linear). The trajectory is driven by
+   `rotate(θ) translateX(d)`: the streak is rotated to angle θ AND moves
+   along that same local x-axis, so the trail is ALWAYS perfectly colinear
+   with the direction of travel — on any screen aspect ratio. The start
+   point is set by each meteor's own top/left anchor; only translateX is
+   animated, keeping the path a straight ray. */
+.shooting-star-1 {
+  top: 4vh;
+  left: 0;
+  animation: shoot1 24s linear infinite;
+  animation-delay: 5s;
+}
+
+.shooting-star-2 {
+  top: -4vh;
+  left: 100vw;
+  animation: shoot2 29s linear infinite;
+  animation-delay: 13s;
+}
+
+.shooting-star-3 {
+  top: -10vh;
+  left: 80vw;
+  animation: shoot3 36s linear infinite;
+  animation-delay: 22s;
+}
+
+/* Trajectory 1 — shallow diagonal, enters top-left, exits bottom-right (22°) */
+@keyframes shoot1 {
+  0%    { opacity: 0; transform: rotate(22deg) translateX(-35vw); }
+  3.5%  { opacity: 0; transform: rotate(22deg) translateX(-35vw); }
+  5%    { opacity: 1; }
+  11%   { opacity: 1; }
+  12.5% { opacity: 0; transform: rotate(22deg) translateX(150vw); }
+  100%  { opacity: 0; transform: rotate(22deg) translateX(150vw); }
+}
+
+/* Trajectory 2 — steeper diagonal, enters top-right, exits bottom-left (158°) */
+@keyframes shoot2 {
+  0%    { opacity: 0; transform: rotate(158deg) translateX(-35vw); }
+  4%    { opacity: 0; transform: rotate(158deg) translateX(-35vw); }
+  5.5%  { opacity: 1; }
+  11.5% { opacity: 1; }
+  13%   { opacity: 0; transform: rotate(158deg) translateX(150vw); }
+  100%  { opacity: 0; transform: rotate(158deg) translateX(150vw); }
+}
+
+/* Trajectory 3 — steep near-vertical fall, enters top-right, exits lower-left (116°) */
+@keyframes shoot3 {
+  0%    { opacity: 0; transform: rotate(116deg) translateX(-25vw); }
+  3%    { opacity: 0; transform: rotate(116deg) translateX(-25vw); }
+  4.5%  { opacity: 1; }
+  9.5%  { opacity: 1; }
+  11%   { opacity: 0; transform: rotate(116deg) translateX(130vw); }
+  100%  { opacity: 0; transform: rotate(116deg) translateX(130vw); }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .skill-node-label {
+    font-size: 0.78rem;
+  }
+
+  .skill-node-star {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Push skill nodes inward a bit on smaller viewports — handled via inline % */
+}
+
+@media (max-width: 480px) {
+  .skill-node-label {
+    font-size: 0.7rem;
+  }
+
+  /* Hide a few bg stars by reducing perceived density — not strictly needed */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-star,
+  .shooting-star {
+    animation: none;
+  }
+
+  .shooting-star {
+    display: none;
+  }
+}
