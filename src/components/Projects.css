@@ -2,16 +2,93 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.25rem;
+  align-items: stretch;
+}
+
+/* 3D stage per card */
+.project-stage {
+  perspective: 1200px;
+}
+
+.project-3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  height: 100%;
 }
 
 .project-card {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 1.9rem 1.85rem 1.75rem;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.015) 55%,
+    rgba(196, 181, 160, 0.02)
+  );
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transform-style: preserve-3d;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Champagne hairline that draws across the top on hover */
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-warm), transparent 70%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card:hover {
-  transform: translateY(-4px);
+  border-color: rgba(196, 181, 160, 0.28);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(196, 181, 160, 0.06) inset;
+}
+
+.project-card:hover::after {
+  transform: scaleX(1);
+}
+
+.project-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+/* Oversized ghost number */
+.project-ghost-index {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.9rem;
+  font-family: var(--heading-font);
+  font-size: 5rem;
+  line-height: 1;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.028);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.project-card-head,
+.project-blurb,
+.project-features,
+.project-stack {
+  position: relative;
+  z-index: 1;
 }
 
 .project-card-head {
@@ -27,6 +104,11 @@
   line-height: 1.15;
   color: var(--text-main);
   margin: 0 0 0.15rem;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .project-title {
+  color: var(--accent-warm);
 }
 
 .project-subtitle {
@@ -102,5 +184,16 @@
 
   .project-card {
     padding: 1.6rem 1.4rem;
+  }
+
+  .project-ghost-index {
+    font-size: 3.6rem;
+    right: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-glare {
+    display: none;
   }
 }

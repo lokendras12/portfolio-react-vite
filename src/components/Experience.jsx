@@ -1,6 +1,15 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { fadeUp, staggerContainer } from '../utils/motion';
+import React, { useRef, useState } from 'react';
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionValue,
+  useMotionTemplate,
+  useMotionValueEvent,
+  useReducedMotion,
+} from 'framer-motion';
+import { fadeUp } from '../utils/motion';
 import { resumeCardHover } from '../utils/resumeSound';
 import './Experience.css';
 
@@ -73,43 +82,139 @@ const roles = [
   },
 ];
 
+const TimelineCard = ({ role, index }) => {
+  const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const [lit, setLit] = useState(false);
+
+  // Scroll-bound 3D entrance: the card lies tilted back in space and
+  // "stands up" as it scrolls into view. Scrubbing back reverses it.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.96', 'start 0.45'],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 22,
+    mass: 0.4,
+  });
+
+  const rotateX = useTransform(progress, [0, 1], [26, 0]);
+  const y = useTransform(progress, [0, 1], [80, 0]);
+  const z = useTransform(progress, [0, 1], [-110, 0]);
+  const scale = useTransform(progress, [0, 1], [0.94, 1]);
+  const opacity = useTransform(progress, [0, 0.55, 1], [0, 0.8, 1]);
+
+  // Node "ignites" once the card is mostly raised
+  useMotionValueEvent(scrollYProgress, 'change', (v) => setLit(v > 0.65));
+
+  // Pointer tilt + glare sheen that follows the cursor
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const sTiltX = useSpring(tiltX, { stiffness: 180, damping: 20, mass: 0.3 });
+  const sTiltY = useSpring(tiltY, { stiffness: 180, damping: 20, mass: 0.3 });
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(20);
+  const glareOpacity = useMotionValue(0);
+  const glare = useMotionTemplate`radial-gradient(460px circle at ${glareX}% ${glareY}%, rgba(232, 218, 195, 0.09), transparent 62%)`;
+
+  const handlePointerMove = (e) => {
+    if (reduceMotion) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    tiltY.set((px - 0.5) * 5);
+    tiltX.set((0.5 - py) * 4);
+    glareX.set(px * 100);
+    glareY.set(py * 100);
+    glareOpacity.set(1);
+  };
+
+  const handlePointerLeave = () => {
+    tiltX.set(0);
+    tiltY.set(0);
+    glareOpacity.set(0);
+  };
+
+  return (
+    <article className={`timeline-item${lit ? ' is-lit' : ''}`} ref={ref}>
+      <span className="timeline-node" aria-hidden="true" />
+      <motion.div
+        className="timeline-3d"
+        style={reduceMotion ? undefined : { rotateX, y, z, scale, opacity }}
+      >
+        <motion.div
+          className="timeline-content"
+          style={reduceMotion ? undefined : { rotateX: sTiltX, rotateY: sTiltY }}
+          onMouseEnter={resumeCardHover}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+        >
+          <motion.span
+            className="timeline-glare"
+            style={{ background: glare, opacity: glareOpacity }}
+            aria-hidden="true"
+          />
+          <span className="timeline-ghost-index" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <div className="timeline-meta">
+            <span className="timeline-date">{role.date}</span>
+            <span className="timeline-meta-dot" />
+            <span className="timeline-location">{role.location}</span>
+          </div>
+          <h3 className="timeline-role">{role.title}</h3>
+          <p className="timeline-company">{role.company}</p>
+          <ul className="timeline-points">
+            {role.points.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        </motion.div>
+      </motion.div>
+    </article>
+  );
+};
+
 const Experience = () => {
+  const timelineRef = useRef(null);
+
+  // Rail fill bound to scroll through the whole timeline
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start 0.75', 'end 0.6'],
+  });
+  const railScale = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 24,
+    mass: 0.5,
+  });
+
   return (
     <section id="experience" className="resume-section experience">
-      <motion.div
-        className="resume-container"
-        variants={staggerContainer(0.14)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-      >
-        <motion.div className="resume-head" variants={fadeUp}>
+      <div className="resume-container">
+        <motion.div
+          className="resume-head"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <span className="resume-eyebrow">Career</span>
           <h2 className="resume-title">Professional <em>Experience</em></h2>
         </motion.div>
 
-        <div className="timeline">
-          {roles.map((role) => (
-            <motion.article className="timeline-item" key={role.company} variants={fadeUp}>
-              <span className="timeline-node" aria-hidden="true" />
-              <div className="timeline-content" onMouseEnter={resumeCardHover}>
-                <div className="timeline-meta">
-                  <span className="timeline-date">{role.date}</span>
-                  <span className="timeline-meta-dot" />
-                  <span className="timeline-location">{role.location}</span>
-                </div>
-                <h3 className="timeline-role">{role.title}</h3>
-                <p className="timeline-company">{role.company}</p>
-                <ul className="timeline-points">
-                  {role.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            </motion.article>
+        <div className="timeline" ref={timelineRef}>
+          <motion.span
+            className="timeline-rail-fill"
+            style={{ scaleY: railScale }}
+            aria-hidden="true"
+          />
+          {roles.map((role, index) => (
+            <TimelineCard key={role.company} role={role} index={index} />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

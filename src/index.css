@@ -25,9 +25,9 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Note: no global scroll-behavior:smooth — in-page scrolling passes
+   behavior:'smooth' explicitly in JS, and route changes must reset the
+   scroll position instantly (see ScrollToTop in App.jsx). */
 
 html,
 body,

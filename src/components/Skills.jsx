@@ -1,7 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { fadeUp, staggerContainer } from '../utils/motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { fadeUp } from '../utils/motion';
 import { resumeCardHover } from '../utils/resumeSound';
+import { useTiltGlare } from '../hooks/useTiltGlare';
 import './Skills.css';
 
 const skillGroups = [
@@ -43,35 +44,85 @@ const skillGroups = [
   },
 ];
 
+const SkillCard = ({ group, index }) => {
+  const ref = useRef(null);
+
+  // Scroll-bound entrance: left-column cards swing in from the left,
+  // right-column from the right, while standing up from a back-tilt.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.97', 'start 0.55'],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 22,
+    mass: 0.4,
+  });
+
+  const side = index % 2 === 0 ? -1 : 1;
+  const rotateX = useTransform(progress, [0, 1], [16, 0]);
+  const rotateY = useTransform(progress, [0, 1], [9 * side, 0]);
+  const y = useTransform(progress, [0, 1], [56, 0]);
+  const scale = useTransform(progress, [0, 1], [0.96, 1]);
+  const opacity = useTransform(progress, [0, 0.6, 1], [0, 0.85, 1]);
+
+  const { reduceMotion, tiltStyle, glareStyle, onPointerMove, onPointerLeave } =
+    useTiltGlare({ glareSize: 380 });
+
+  const chips = group.value.split(', ');
+
+  return (
+    <div className="skill-stage" ref={ref}>
+      <motion.div
+        className="skill-3d"
+        style={reduceMotion ? undefined : { rotateX, rotateY, y, scale, opacity }}
+      >
+        <motion.div
+          className="skill-group"
+          style={reduceMotion ? undefined : tiltStyle}
+          onMouseEnter={resumeCardHover}
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
+        >
+          <motion.span className="skill-glare" style={glareStyle} aria-hidden="true" />
+          <div className="skill-group-head">
+            <h3 className="skill-group-label">{group.label}</h3>
+            <span className="skill-group-index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+          </div>
+          <div className="skill-chips">
+            {chips.map((chip) => (
+              <span className="skill-chip" key={chip}>{chip}</span>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
 const Skills = () => {
   return (
     <section id="skills" className="resume-section skills">
-      <motion.div
-        className="resume-container"
-        variants={staggerContainer(0.08)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-      >
-        <motion.div className="resume-head" variants={fadeUp}>
+      <div className="resume-container">
+        <motion.div
+          className="resume-head"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <span className="resume-eyebrow">Capabilities</span>
           <h2 className="resume-title">Skills &amp; <em>Expertise</em></h2>
         </motion.div>
 
         <div className="skills-grid">
-          {skillGroups.map((group) => (
-            <motion.div
-              className="resume-card skill-group"
-              key={group.label}
-              variants={fadeUp}
-              onMouseEnter={resumeCardHover}
-            >
-              <h3 className="skill-group-label">{group.label}</h3>
-              <p className="skill-group-value">{group.value}</p>
-            </motion.div>
+          {skillGroups.map((group, index) => (
+            <SkillCard key={group.label} group={group} index={index} />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

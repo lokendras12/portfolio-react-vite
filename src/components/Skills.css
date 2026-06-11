@@ -5,8 +5,77 @@
   align-items: stretch;
 }
 
+/* 3D stage per card */
+.skill-stage {
+  perspective: 1100px;
+}
+
+.skill-3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  height: 100%;
+}
+
 .skill-group {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
   padding: 1.6rem 1.75rem 1.7rem;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.015) 55%,
+    rgba(196, 181, 160, 0.02)
+  );
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transform-style: preserve-3d;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Champagne hairline that draws across the top on hover */
+.skill-group::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-warm), transparent 70%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.skill-group:hover {
+  border-color: rgba(196, 181, 160, 0.28);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(196, 181, 160, 0.06) inset;
+}
+
+.skill-group:hover::after {
+  transform: scaleX(1);
+}
+
+.skill-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.skill-group-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .skill-group-label {
@@ -16,16 +85,42 @@
   text-transform: uppercase;
   color: var(--accent-warm);
   opacity: 0.9;
-  margin: 0 0 0.85rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-subtle);
+  margin: 0;
 }
 
-.skill-group-value {
-  margin: 0;
-  font-size: 0.94rem;
-  line-height: 1.7;
+.skill-group-index {
+  font-family: var(--heading-font);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.14);
+  user-select: none;
+}
+
+/* Skill chips */
+.skill-chips {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.skill-chip {
+  font-size: 0.74rem;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  color: rgba(240, 239, 233, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.015);
+  padding: 0.42rem 0.7rem;
+  border-radius: var(--radius-pill);
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.skill-chip:hover {
+  border-color: rgba(196, 181, 160, 0.45);
   color: var(--text-main);
+  background: rgba(196, 181, 160, 0.07);
 }
 
 @media (max-width: 768px) {
@@ -37,5 +132,11 @@
 @media (max-width: 640px) {
   .skill-group {
     padding: 1.5rem 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-glare {
+    display: none;
   }
 }

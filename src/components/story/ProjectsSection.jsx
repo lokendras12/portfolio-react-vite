@@ -62,9 +62,6 @@ const ProjectsSection = () => {
                   ))}
                 </ul>
               </div>
-              <div className="story-project-arrow" aria-hidden="true">
-                →
-              </div>
             </motion.article>
           ))}
         </motion.div>

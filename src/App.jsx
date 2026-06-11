@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import './App.css';
 import Navbar from './components/Navbar';
+import CursorTrail from './components/CursorTrail';
 import IntroLoader from './components/intro/IntroLoader';
 import IntroHero from './components/intro/IntroHero';
 import HomePage from './pages/HomePage';
@@ -27,6 +33,35 @@ const markIntroSeen = () => {
   } catch {
     // ignore
   }
+};
+
+// Reset scroll on route change so each page's scroll-bound animations play
+// from the beginning. useLayoutEffect runs synchronously BEFORE the browser
+// paints the new page, so it simply appears at the top — no visible jump.
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
+// Soft fade-in for the incoming page so route changes feel seamless.
+const RouteFade = ({ children }) => {
+  const { pathname } = useLocation();
+
+  return (
+    <motion.div
+      key={pathname}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.45, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 function App() {
@@ -70,6 +105,8 @@ function App() {
   return (
     <IntroContext.Provider value={contextValue}>
       <Router basename="/portfolio-react-vite">
+        <ScrollToTop />
+        <CursorTrail />
         <AnimatePresence mode="wait">
           {isLoading && (
             <IntroLoader
@@ -85,10 +122,12 @@ function App() {
         <div className={`App${introPhase === 'done' ? '' : ' app-locked'}`}>
           <Navbar />
           <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/resume" element={<ResumePage />} />
-            </Routes>
+            <RouteFade>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/resume" element={<ResumePage />} />
+              </Routes>
+            </RouteFade>
           </main>
         </div>
       </Router>

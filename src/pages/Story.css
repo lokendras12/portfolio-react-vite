@@ -419,7 +419,7 @@
 
 .story-project-card {
   display: grid;
-  grid-template-columns: 3rem 1fr auto;
+  grid-template-columns: 3rem 1fr;
   gap: 1.5rem;
   align-items: start;
   padding: 2.25rem 0;
@@ -502,18 +502,6 @@
   left: 0;
   color: var(--accent-warm);
   opacity: 0.6;
-}
-
-.story-project-arrow {
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.15);
-  padding-top: 0.5rem;
-  transition: color 0.35s, transform 0.35s;
-}
-
-.story-project-card:hover .story-project-arrow {
-  color: var(--accent-warm);
-  transform: translateX(4px);
 }
 
 /* ─── Hobbies ─── */
@@ -677,10 +665,6 @@
 
   .story-project-card {
     grid-template-columns: 2rem 1fr;
-  }
-
-  .story-project-arrow {
-    display: none;
   }
 
   .story-intro-meta {

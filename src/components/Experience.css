@@ -4,7 +4,7 @@
   padding-left: 2.25rem;
 }
 
-/* Vertical rail */
+/* Base rail (faint track) */
 .timeline::before {
   content: '';
   position: absolute;
@@ -12,25 +12,38 @@
   top: 0.5rem;
   bottom: 0.5rem;
   width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(196, 181, 160, 0.45) 12%,
-    rgba(196, 181, 160, 0.25) 88%,
-    transparent
-  );
+  background: rgba(196, 181, 160, 0.12);
 }
 
+/* Scroll-bound glowing fill over the base rail */
+.timeline-rail-fill {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  transform-origin: top;
+  background: linear-gradient(
+    180deg,
+    rgba(196, 181, 160, 0.85),
+    rgba(196, 181, 160, 0.45)
+  );
+  box-shadow: 0 0 14px rgba(196, 181, 160, 0.45);
+  z-index: 0;
+}
+
+/* Each item is a small 3D stage */
 .timeline-item {
   position: relative;
-  padding-bottom: 1.25rem;
+  padding-bottom: 1.5rem;
+  perspective: 1200px;
 }
 
 .timeline-item:last-child {
   padding-bottom: 0;
 }
 
-/* Node on the rail */
+/* Node on the rail — dormant until the card stands up */
 .timeline-node {
   position: absolute;
   left: calc(-2.25rem - 4px);
@@ -39,23 +52,81 @@
   height: 9px;
   border-radius: 50%;
   background: var(--bg-deep);
-  border: 1px solid var(--accent-warm);
-  box-shadow: 0 0 0 4px var(--bg-deep), 0 0 12px rgba(196, 181, 160, 0.4);
+  border: 1px solid rgba(196, 181, 160, 0.4);
+  box-shadow: 0 0 0 4px var(--bg-deep);
   z-index: 1;
+  transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Ignited node once the card has risen */
+.timeline-item.is-lit .timeline-node {
+  background: var(--accent-warm);
+  border-color: var(--accent-warm);
+  box-shadow:
+    0 0 0 4px var(--bg-deep),
+    0 0 14px rgba(196, 181, 160, 0.75),
+    0 0 30px rgba(196, 181, 160, 0.3);
+}
+
+/* Scroll-driven 3D wrapper */
+.timeline-3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .timeline-content {
+  position: relative;
+  overflow: hidden;
   padding: 1.6rem 1.75rem 1.7rem;
-  background: var(--surface);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.015) 55%,
+    rgba(196, 181, 160, 0.02)
+  );
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  transform-style: preserve-3d;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .timeline-content:hover {
-  border-color: rgba(196, 181, 160, 0.22);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-  transform: translateY(-3px);
+  border-color: rgba(196, 181, 160, 0.28);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(196, 181, 160, 0.06) inset;
+}
+
+/* Cursor-following sheen */
+.timeline-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+/* Oversized ghost chapter number */
+.timeline-ghost-index {
+  position: absolute;
+  top: 0.4rem;
+  right: 1rem;
+  font-family: var(--heading-font);
+  font-size: 5.5rem;
+  line-height: 1;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.028);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.timeline-meta,
+.timeline-role,
+.timeline-company,
+.timeline-points {
+  position: relative;
+  z-index: 1;
 }
 
 .timeline-meta {
@@ -144,5 +215,16 @@
 
   .timeline-content {
     padding: 1.4rem 1.35rem;
+  }
+
+  .timeline-ghost-index {
+    font-size: 4rem;
+    right: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-glare {
+    display: none;
   }
 }

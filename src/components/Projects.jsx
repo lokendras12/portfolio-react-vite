@@ -1,7 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { fadeUp, staggerContainer } from '../utils/motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { fadeUp } from '../utils/motion';
 import { resumeCardHover } from '../utils/resumeSound';
+import { useTiltGlare } from '../hooks/useTiltGlare';
 import './Projects.css';
 
 const projects = [
@@ -72,48 +73,90 @@ const projects = [
   },
 ];
 
+const ProjectCard = ({ project, index }) => {
+  const ref = useRef(null);
+
+  // Scroll-bound 3D entrance, alternating swing direction per card
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.97', 'start 0.5'],
+  });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 22,
+    mass: 0.4,
+  });
+
+  const side = index % 2 === 0 ? -1 : 1;
+  const rotateX = useTransform(progress, [0, 1], [20, 0]);
+  const rotateY = useTransform(progress, [0, 1], [10 * side, 0]);
+  const y = useTransform(progress, [0, 1], [70, 0]);
+  const scale = useTransform(progress, [0, 1], [0.95, 1]);
+  const opacity = useTransform(progress, [0, 0.6, 1], [0, 0.85, 1]);
+
+  const { reduceMotion, tiltStyle, glareStyle, onPointerMove, onPointerLeave } =
+    useTiltGlare({ glareSize: 420 });
+
+  return (
+    <div className="project-stage" ref={ref}>
+      <motion.div
+        className="project-3d"
+        style={reduceMotion ? undefined : { rotateX, rotateY, y, scale, opacity }}
+      >
+        <motion.article
+          className="project-card"
+          style={reduceMotion ? undefined : tiltStyle}
+          onMouseEnter={resumeCardHover}
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
+        >
+          <motion.span className="project-glare" style={glareStyle} aria-hidden="true" />
+          <span className="project-ghost-index" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+
+          <div className="project-card-head">
+            <h3 className="project-title">{project.title}</h3>
+            <p className="project-subtitle">{project.subtitle}</p>
+          </div>
+          <p className="project-blurb">{project.blurb}</p>
+          <ul className="project-features">
+            {project.features.map((feature) => (
+              <li key={feature}>{feature}</li>
+            ))}
+          </ul>
+          <div className="project-stack">
+            {project.stack.map((tech) => (
+              <span className="project-tag" key={tech}>{tech}</span>
+            ))}
+          </div>
+        </motion.article>
+      </motion.div>
+    </div>
+  );
+};
+
 const Projects = () => {
   return (
     <section id="projects" className="resume-section projects">
-      <motion.div
-        className="resume-container"
-        variants={staggerContainer(0.1)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-      >
-        <motion.div className="resume-head" variants={fadeUp}>
+      <div className="resume-container">
+        <motion.div
+          className="resume-head"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <span className="resume-eyebrow">Selected Work</span>
           <h2 className="resume-title">Key <em>Projects</em></h2>
         </motion.div>
 
         <div className="projects-grid">
-          {projects.map((project) => (
-            <motion.article
-              className="resume-card project-card"
-              key={project.title}
-              variants={fadeUp}
-              onMouseEnter={resumeCardHover}
-            >
-              <div className="project-card-head">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-subtitle">{project.subtitle}</p>
-              </div>
-              <p className="project-blurb">{project.blurb}</p>
-              <ul className="project-features">
-                {project.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-              <div className="project-stack">
-                {project.stack.map((tech) => (
-                  <span className="project-tag" key={tech}>{tech}</span>
-                ))}
-              </div>
-            </motion.article>
+          {projects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
